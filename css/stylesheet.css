@@ -1,0 +1,116 @@
+html { 
+    scroll-behavior: smooth;
+    background: black;
+}
+body {
+    position: relative;
+}
+
+div#Section1.container-fluid {
+    padding: 0;
+}
+
+
+
+.h1, h1{
+    font-size: 160px;
+    text-align: center;
+    padding-top: 70px;
+    padding-bottom: 70px;
+    color: black ;
+    margin: 0;  
+}
+nav {
+    width: 100%;
+    height: 50px;
+    background-color: #003e5f;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+
+	}
+nav ul {
+	display: flex;
+	margin: 0;
+	padding: 0;
+	float: left;
+	}
+nav ul li {
+	list-style: none;
+}
+nav ul li a {
+	display: block;
+	color: #96b3c2;
+	padding-right: 20px;
+    padding-left: 10px;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: bold;
+	line-height: 50px;
+
+}
+nav ul li a.active {
+    color: #ffffff;
+}
+nav.navbar-nav.navbar-right {
+    margin-right: 10px;
+}
+.item {
+    width: 100%;
+    height: 600px;
+}
+
+.pacpic {
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 130px;
+	display: block;
+}
+.tetrispic {
+    width: 550px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 130px;
+	display: block;
+}
+.snakepic {
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 130px;
+	display: block;
+}
+.breakoutpic {
+    width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 180px;
+	display: block;
+}
+.text1{
+    color: #95a0b2;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 15%;
+}
+.text2{
+    color: #333;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 15%;
+}
+
+.html {
+    scroll-behavior: smooth;
+}
+
+.instructions {
+    background-color: black;
+    background-size: cover;
+}
+
+.snakeins {
+    padding: 25px;
+    width: 100%
+}
