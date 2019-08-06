@@ -1,0 +1,357 @@
+<html lang="DA">
+<head>
+    <link rel="stylesheet" href="functions/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/stylesheet.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body data-spy="scroll" data-target="#nav">
+
+    <!-- Page Content -->
+    <div id="header">
+    <div id="Section1"class="container-fluid">
+        <a href="index.html"><img src="https://4.bp.blogspot.com/-IZ4dQyggZF8/W44rS6YuJEI/AAAAAAAAByw/Oyt4206Hfq4JiI7_2hgkLuokJcQAmliGgCLcBGAs/s1600/Sk%25C3%25A6rmbillede%2B2018-09-04%2Bkl.%2B08.49.19.png" style="width: 100%; height: 350px;"></a>
+    </div>
+</div>
+
+    <!-- NavBar -->
+	<nav id="nav">
+		<ul>
+      <li><a href="index.html"> Home</a></li>
+	    <li><a href="#Section2"> Pacman</a></li>
+	    <li><a href="#Section3"> Tetris</a></li>
+      <li><a href="#Section4"> Donkey Kong</a></li>
+      <li><a href="#Section5"> Snake</a></li>
+      <li><a href="#Section6" class="active"> Breakout</a></li>
+        </ul>
+    </nav>
+    
+<!--"Game" -->
+    <html>
+<head>
+    <center>
+<style>
+    .Game {
+        background-color: black;
+        background-image: url("https://3.bp.blogspot.com/-bGx4PnA_hHM/W5uTqorTJ6I/AAAAAAAAB5E/J9sAI47innoRf5ZRjvObIpRhZhx3yIZxwCLcBGAs/s1600/breakoutbgbg.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+    * {
+        padding: 0; margin: 0;
+    }
+    canvas { background: #353d49; display: block; margin: 100px;}
+
+    #startBtn {
+      border: none;
+      background: none;
+      margin: 150px;
+      
+    }
+
+    #container{
+    display:inline-block; }
+
+    #myCanvas{
+    position:relative;
+    margin: 150px;
+    cursor: none;
+    }
+    
+</style>
+</head>
+<body>
+<div class="Game">
+  <div id="container">
+    <button type="button" id="startBtn" onclick="draw()" ><img src="https://1.bp.blogspot.com/-84ZlkYQpzwo/XUkgu9bHybI/AAAAAAAACrQ/BIU39Zovro8pTlZO7VdDezzY6l7wMZOngCLcBGAs/s1600/breakoutFULL.png">
+    </button>
+      <canvas id="myCanvas" width="600" height="550" style="display: none"></canvas>
+</div>
+</div>
+    
+<script>
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+var ballRadius = 9;
+var x = canvas.width-Math.floor(Math.random()*600)
+var y = canvas.height-30;
+var dx = 5;
+var dy = -4;
+var paddleHeight = 10;
+var paddleWidth = 75;
+var paddleX = (canvas.width-paddleWidth)/2;
+var rightPressed = false;
+var leftPressed = false;
+var brickRowCount = 7;
+var brickColumnCount = 5;
+var brickWidth = 75;
+var brickHeight = 20;
+var brickPadding = 4;
+var brickOffsetTop = 30;
+var brickOffsetLeft = 30;
+var score = 0;
+var lives = 3;
+    
+    //game
+function newBrick()
+{
+  return { x: 0, y: 0, status: 1 };
+
+}
+var bricks = [];
+for(var c=0; c<brickColumnCount; c++) {
+  bricks[c] = [];
+  for(var r=0; r<brickRowCount; r++) {
+    bricks[c].unshift(newBrick());
+  }
+}
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+document.addEventListener("mousemove", mouseMoveHandler, false);
+
+function keyDownHandler(e) {
+  if(e.keyCode == 39) {
+    rightPressed = true;
+  }
+  else if(e.keyCode == 37) {
+    leftPressed = true;
+  }
+}
+function keyUpHandler(e) {
+  if(e.keyCode == 39) {
+    rightPressed = false;
+  }
+  else if(e.keyCode == 37) {
+    leftPressed = false;
+  }
+  e.preventDefault();
+}
+function mouseMoveHandler(e) {
+  var relativeX = e.clientX - canvas.offsetLeft;
+  if(relativeX > 0 && relativeX < canvas.width) {
+    paddleX = relativeX - paddleWidth/2;
+  }
+}
+function collisionDetection() {
+  for(var c=0; c<brickColumnCount; c++) {
+    for(var r=0; r<brickRowCount; r++) {
+      var b = bricks[c][r];
+      if(b.status == 1) {
+        if(x > b.x && x < b.x+brickWidth+ballRadius && y > b.y && y < b.y+brickHeight+ballRadius) {
+          dy = -dy;
+          b.status = 0;
+          score++;
+          if(score == 9999) {
+            alert("YOU WIN, CONGRATS!");
+            document.location.reload();
+          }
+        }
+      }
+    }
+  }
+}
+
+function drawBall() {
+  ctx.beginPath();
+  ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+  ctx.fillStyle = "#0095DD";
+  ctx.fill();
+  ctx.closePath();
+}
+function drawPaddle() {
+  ctx.beginPath();
+  ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+  ctx.fillStyle = "#0095DD";
+  ctx.fill();
+  ctx.closePath();
+}
+
+function moreBricks() {
+    bricks.unshift([]);
+    newBrick();
+    brickColumnCount++;
+for(r=0; r<brickRowCount; r++) {
+    bricks[0].unshift(newBrick());
+  }
+}
+
+function drawBricks() {
+  for(var c=0; c<brickColumnCount; c++) {
+    for(var r=0; r<brickRowCount; r++) {
+      if(bricks[c][r].status == 1) {
+        var brickX = (r*(brickWidth+brickPadding))+brickOffsetLeft;
+        var brickY = (c*(brickHeight+brickPadding))+brickOffsetTop;
+        bricks[c][r].x = brickX;
+        bricks[c][r].y = brickY;
+        ctx.beginPath();
+        ctx.rect(brickX, brickY, brickWidth, brickHeight);
+        ctx.fillStyle = "#0095DD";
+        ctx.fill();
+        ctx.closePath();
+      }
+    }
+  }
+}
+function drawScore() {
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "#0095DD";
+  ctx.fillText("Score: "+score, 8, 20);
+}
+function drawLives() {
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "#0095DD";
+  ctx.fillText("Lives: "+lives, canvas.width-65, 20);
+}
+
+var frameCount = 0;
+const FRAME_COUNT_NEW_LINE = 500;
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  startBtn.style.display = 'none';
+  canvas.style.display = '';
+    frameCount += 1;
+  if (frameCount === FRAME_COUNT_NEW_LINE)
+  {
+    frameCount = 0;
+      moreBricks();
+  }
+
+  drawBricks();
+  drawBall();
+  drawPaddle();
+  drawScore();
+  drawLives();
+  collisionDetection();
+
+  if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+    dx = -dx;
+  }
+  if(y + dy < ballRadius) {
+    dy = -dy;
+  }
+  else if(y + dy > canvas.height-ballRadius) {
+    if(x > paddleX && x < paddleX + paddleWidth) {
+      dy = -dy;
+    }
+    else {
+      lives--;
+      if(!lives) {
+
+        document.location.reload();
+      }
+      else {
+        x = canvas.width-Math.floor(Math.random()*600);
+        y = canvas.height-30;
+        dx = 5;
+        dy = -4;
+        paddleX = (canvas.width-paddleWidth)/2;
+      }
+    }
+  }
+
+  if(rightPressed && paddleX < canvas.width-paddleWidth) {
+    paddleX += 7;
+  }
+  else if(leftPressed && paddleX > 0) {
+    paddleX -= 7;
+  }
+
+  x += dx;
+  y += dy;
+  requestAnimationFrame(draw);
+}
+
+    </script>
+    
+</body>
+</html>
+
+<!-- Sections -->
+<div class="container-fluid">
+    <div class="row">
+    <div class="instructions">
+            <img class="snakeins" src="https://4.bp.blogspot.com/-3_R-NqGIbbM/W6Syn8fDYmI/AAAAAAAAB64/XP0YfxxZcSowjb9rQPIEbPCq_9KzyOkZwCLcBGAs/s1600/42193756_524139431345897_2987293738851631104_n.png">
+</div>
+</div>  
+</div>
+
+<div class="container-fluid">
+<div class="row">
+        <div id="Section2" class="col-sm-6" style="max-height: 100%; min-height: 56%; background-color: #333;">
+       <a href="pakkuman.html"><img class="pacpic"src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Pacman_HD.png/1024px-Pacman_HD.png"></a>
+        </div>
+        <div class="col-sm-6" style="max-height: 100%; min-height: 56%; background-color: #333;">
+            <div class="text1">
+                <h2> パックマン Pakkuman </h2> 
+              <p>  Pac-Man is a simple early arcade game formed in 1980 by the Japanese video-game designer Toru Iwanti. It is the most famous amongst acade games. 
+                  The obejtive in the game, is to find your way through a maze and collect all the dots while avoiding the dangerous ghosts.
+                  Hidden powerups and fruits will apear to improve score, and to return ghosts to reform at their base. <br> <br>
+                  PacMan was designed to have no ending - as long as you'd have at least one life left, you could go on forever. Press Pacman on the left of the screen, to begin your journey</p>
+
+
+              </p>
+            </div>
+        </div>
+</div>    
+</div>
+
+<div class="container-fluid">
+<div class="row">
+        <div id="Section3" class="col-sm-6" style="max-height: 100%; min-height: 56%; background-color: #95a0b2; border-right: 3px solid #333;"> 
+        <div class="text2">
+                <h2> Тетрис </h2> 
+              <p>Tetris is a tile-matching-puzzle video game, originally designed an programmed by Russian game designer Alexey Pajitnov
+                 The first playable version was completed on June 6, 1984 while he was working for the Dorodnitsyn Computing Centre in Moscow.
+                 <br> <br> Tetris is made up by geometric shapes composed of four square blocks each. A random sequence of tetris-blocks fall down the playing field. The objective of the game is to
+                 manipulate these Tetriminos, by moving each one sideways or rotating it by 90 degree units. 
+                 Click the tetris logo to your right, and see how many lines you can stack without any gaps! </p>
+              </p>
+            </div>
+        </div>
+        <div class="col-sm-6" style="max-height: 100%; min-height: 56%; background-color: #95a0b2; border-left: 3px solid #333;">
+        <a href="tetris.html"><img class="tetrispic"src="https://dehayf5mhw1h7.cloudfront.net/wp-content/uploads/sites/601/2018/01/08072856/logo_5.png"></a>
+        </div>
+</div>    
+</div>
+
+<div class="container-fluid">
+<div class="row">
+        <div id="Section4" class="col-sm-6" style="max-height: 100%; min-height: 56%; background-color: #333;">
+        <a href="donkeykong.html"><img class="pacpic"src="https://i.pinimg.com/originals/1e/9e/8b/1e9e8bd599cd039e9c8cc78ee259a8ed.png"></a>
+        </div>
+        <div class="col-sm-6" style="max-height: 100%; min-height: 56%; background-color: #333;">
+        <div class="text1"> 
+            <h2>ドンキーコング Donkī Kongu</h2>
+              <p>Donkey Kong is a series of video games, featuring the adventures of an ape-like character called Donkey Kong. The arcade game
+                  was conceived by Shigeru Miyamoto in 1981. The franchise mainly comprises two different game genres, plus
+                  spin-off titles of various genres. <br> <br>
+                  A hallmark of the Donkey Kong franchise is barrels, which the Kongs use as weapons, vehicles, furtnite
+                  and lodging. The Donkey Kong character is highlt recognizable and vey popular. Click the icon to your left 
+                  and see how far you can get without getting hit by Donkey Kongs barrels</p>
+              </p>
+            </div>
+        </div>
+</div>    
+</div>
+
+<div class="container-fluid">
+<div class="row">
+        <div id="Section5" class="col-sm-6" style="max-height: 100%; min-height: 56%; background-color: #95a0b2; border-right: 3px solid #333;"> 
+        <div class="text2">
+                <h2> Snake </h2> 
+              <p>Snake is the common name for a video game concept where the player maneuvers a line which grows in length.
+                  The player controls a dot, square, or object on a bordered plane. As it moves forward it leaves a trail behind, resembling
+                  ad moving snake.
+                 <br> <br> The concept originated in 1976, and the ease of implementing Snake has led to hundreds of versions.
+                Nokia is known for putting Snake on the majority of their phones. - Today snake is just a click away on your computer, so press 
+            the snake to your right, and see how long you can get! </p>
+              </p>
+            </div>
+        </div>
+        <div class="col-sm-6" style="max-height: 100%; min-height: 56%; background-color: #95a0b2; border-left: 3px solid #333;">
+        <a href="snake.html"><img class="snakepic"src="https://i.pinimg.com/originals/a6/42/7f/a6427fb30585c0238b62b85309329928.png"></a>
+</div>
+</div>

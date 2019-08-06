@@ -1,0 +1,472 @@
+<html lang="DA">
+<head>
+    <link rel="stylesheet" href="functions/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/stylesheet.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body data-spy="scroll" data-target="#nav">
+
+    <!-- Page Content -->
+    <div id="header">
+    <div id="Section1"class="container-fluid">
+        <a href="index.html"><img src="https://4.bp.blogspot.com/-IZ4dQyggZF8/W44rS6YuJEI/AAAAAAAAByw/Oyt4206Hfq4JiI7_2hgkLuokJcQAmliGgCLcBGAs/s1600/Sk%25C3%25A6rmbillede%2B2018-09-04%2Bkl.%2B08.49.19.png" style="width: 100%; height: 350px;"></a>
+    </div>
+</div>
+
+    <!-- NavBar -->
+	<nav id="nav">
+		<ul>
+      <li><a href="index.html"> Home</a></li>
+	  <li><a href="#Section2"> Pacman</a></li>
+	  <li><a href="#Section3"> Tetris</a></li>
+      <li><a href="#Section4"> Donkey Kong</a></li>
+      <li><a href="#Section5" class="active"> Snake</a></li>
+      <li><a href="#Section6"> Breakout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Game -->
+<style> 
+    canvas {background: #353d49}
+    .Game {
+        background-color: black;
+        background-image: url("https://3.bp.blogspot.com/-ZuX8Pr2F6iU/W6SyWgQhTvI/AAAAAAAAB6k/sGBvm_ynxH0j2_DvkJVECUrPiJhwOAi_wCLcBGAs/s1600/42106132_463256700829769_1893186227906019328_n.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+    #myCanvas{
+    position:relative;
+    margin: 152px;
+    cursor: none;
+    }
+    #startBtn {
+    border: none;
+    background: none;
+    margin: 150px;
+    }
+    #container{
+    display:inline-block; }
+</style>
+
+
+</head>
+<center>
+    
+<body>
+<div class="Game">
+    <button id="startBtn" onclick="init()"><img src="https://2.bp.blogspot.com/-utTsF7dMoPs/W6TOyE_DMyI/AAAAAAAAB8s/Ib_920J-dwkkQ-yEJT7GyerDRZuGqGtCgCLcBGAs/s1600/canvasplay.png"></button>
+    <canvas id="myCanvas" width="600" height="550" style="display: none">
+    </canvas>
+</div>
+</body>
+<script>
+var canvas;
+var ctx;
+var head;
+var apple;
+var ball;
+var dots;
+var apple_x;
+var apple_y;
+var leftDirection = false;
+var rightDirection = true;
+var upDirection = false;
+var downDirection = false;
+var inGame = true;
+var score = 0;    
+const DOT_SIZE = 10;
+const ALL_DOTS = 999;
+const MAX_RAND = 50;
+const DELAY = 120;
+const C_HEIGHT = 550;
+const C_WIDTH = 600;    
+const LEFT_KEY = 65;
+const RIGHT_KEY = 68;
+const UP_KEY = 87;
+const DOWN_KEY = 83;
+var x = new Array(ALL_DOTS);
+var y = new Array(ALL_DOTS);  
+var wall;
+var wall_y = [];
+var wall_x = [];
+var frameCount = 0;
+const FRAME_COUNT_NEW_LINE = 500;
+var moveLock = true;
+    function bush() {
+        ctx.dra
+    }
+ function doWall() {
+    
+    if (inGame) {
+        // yet to be implemented
+        for (var i = 0; i < wall_x.length; i++)
+        ctx.drawImage(wall, wall_x[i], wall_y[i]);
+        for (var z = 0; z < dots; z++) {
+            
+            if (z == 0) {
+                ctx.drawImage(head, x[z], y[z]);
+            } else {
+                ctx.drawImage(ball, x[z], y[z]);
+            }
+        } 
+    } else {
+        gameOver();
+    }        
+}
+//Is there collision?
+    function checkWall() {
+        locateWall();
+    for (var i = 0; i < wall_x.length; i++)
+    if ((x[0] == wall_x[i]) && (y[0] == wall_y[i])) {
+        gameOver();
+    }
+}
+//where is wall? 
+    function locateWall() {
+         if (score == 57) {
+            wall_x.push(300,300,300,300,300,300,300,300)
+            wall_y.push(230,240,250,260,270,280,290,300,310,320,)
+}
+            else if (score == 54){
+            wall_x.push(300,300,300,300,);
+            wall_y.push(470,480,490,500,);
+            }
+    
+        else if (score == 51){
+            wall_x.push(300,300,300,300,);
+            wall_y.push(50,60,70,80,);
+            }
+    
+        else if (score == 48){
+            wall_x.push(260,260,260,260,);
+            wall_y.push(330,340,350,360,);
+            }
+    
+        else if (score == 45){
+            wall_x.push(340,340,340,340,);
+            wall_y.push(190,200,210,220,);
+            }
+    
+        else if (score == 42){
+            wall_x.push(340,340,340,340,);
+            wall_y.push(330,340,350,360,);
+            }
+    
+        else if (score == 39){
+            wall_x.push(260,260,260,260,);
+            wall_y.push(190,200,210,220,);
+            }
+    
+        else if (score == 36){
+            wall_x.push(260,270,280,290,300,310,320,330,340,);
+            wall_y.push(370,370,370,370,370,370,370,370,370,);
+            }
+    
+        else if (score == 33){
+            wall_x.push(260,270,280,290,300,310,320,330,340,);
+            wall_y.push(180,180,180,180,180,180,180,180,180,);
+            }
+    
+        else if (score == 30){
+            wall_x.push(470,470,470,470,470,470,470,470,470,470,470,470,470,470,470,470,);
+            wall_y.push(190,200,210,220,230,240,250,260,290,300,310,320,330,340,350,360,);
+            }
+    
+        else if (score == 27){
+            wall_x.push(130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,);
+            wall_y.push(190,200,210,220,230,240,250,260,290,300,310,320,330,340,350,360,);
+            }
+    
+        else if (score == 24){
+            wall_x.push(530,530,530,530,530,530,530,);
+            wall_y.push(440,450,460,470,480,490,500,);
+            }
+        else if (score == 21){
+            wall_x.push(470,480,490,500,510,520,530,);
+            wall_y.push(500,500,500,500,500,500,500,);
+            }
+    
+        else if (score == 18){
+            wall_x.push(530,530,530,530,530,530,530,);
+            wall_y.push(50,60,70,80,90,100,110,);
+            }
+        else if (score == 15){
+           wall_x.push(470,480,490,500,510,520,530,);
+            wall_y.push(50,50,50,50,50,50,50,);
+            }
+    
+        else if (score == 12){
+            wall_x.push(50,50,50,50,50,50,50,);
+            wall_y.push(440,450,460,470,480,490,500,);
+            }
+    
+        else if (score == 9){
+            wall_x.push(50,60,70,80,90,100,110,);
+            wall_y.push(500,500,500,500,500,500,500,);
+            }
+    
+        else if (score == 6){
+            wall_x.push(50,50,50,50,50,50,50,);
+            wall_y.push(50,60,70,80,90,100,110,);
+            }
+    
+        else if (score == 3){
+            wall_x.push (50,60,70,80,90,100,110,);
+            wall_y.push(50,50,50,50,50,50,50,);
+            }
+                return;
+    }
+function init() {
+    
+    canvas = document.getElementById('myCanvas');
+    ctx = canvas.getContext('2d');
+    startBtn.style.display = 'none';
+    canvas.style.display = '';
+    
+    
+    loadImages();
+    createSnake();
+    locateWall();
+    locateApple();
+    setTimeout("gameCycle()", DELAY);
+    
+}    
+function loadImages() {
+    
+    head = new Image();
+    head.src = 'https://3.bp.blogspot.com/-E7APG5WF_H0/W6SyWGirRAI/AAAAAAAAB6c/Bm7oPxFu7bMcXotcX1fCsaIqBSdEmU3sQCLcBGAs/s1600/41959040_467623807055471_2465158971313356800_n.png';    
+    
+    ball = new Image();
+    ball.src = 'https://4.bp.blogspot.com/-RrFKEBYpO-0/W6SyWJNixhI/AAAAAAAAB6g/ayC_VtIUgccUbZz7zMjIx1qp8Uh3Mq-RwCLcBGAs/s1600/41991548_2258114624423375_9077554529901215744_n.png'; 
+    
+    apple = new Image();
+    apple.src = 'https://3.bp.blogspot.com/-2uvxwKfoZz0/W6SyWATd6nI/AAAAAAAAB6Y/0Fc44QsnO7Q0Bcn2-rOmyTmEftv2Q9Z6gCLcBGAs/s1600/41938988_272285776725362_1349461132217155584_n.png'; 
+
+    wall = new Image();
+    wall.src = 'https://1.bp.blogspot.com/-qPgzufBArV4/XUlsVzT8cwI/AAAAAAAACrc/La1bPCTgRcAH0lLdYX0woyr5u83MMGD4ACLcBGAs/s1600/bush.png'
+
+}
+    
+    
+function createSnake() {
+    dots = 3;
+    for (var z = 0; z < dots; z++) {
+        x[z] = 50 - z * 10;
+        y[z] = 50;
+    }
+}
+function doDrawing() {
+           ctx.clearRect(0, 0, C_WIDTH, C_HEIGHT);
+    
+    if (inGame) {
+        ctx.drawImage(apple, apple_x, apple_y);
+        for (var z = 0; z < dots; z++) {
+            
+            if (z == 0) {
+                ctx.drawImage(head, x[z], y[z]);
+            } else {
+                ctx.drawImage(ball, x[z], y[z]);
+            }
+        }    
+    } else {
+        gameOver();
+    }        
+}
+function drawScore() {
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "green";
+  ctx.fillText("Score: "+score, 8, 20);
+}
+function gameOver() {
+    document.location.reload();
+}
+//Is there collision? Apple = Score
+function checkApple() {
+    if ((x[0] == apple_x) && (y[0] == apple_y)) {
+        dots++;
+        locateApple();
+        score++;
+    }
+}
+//Move the snake
+function move() {
+    moveLock = false;
+    for (var z = dots; z > 0; z--) {
+        x[z] = x[(z - 1)];
+        y[z] = y[(z - 1)];
+    }
+    if (leftDirection) {
+        x[0] -= DOT_SIZE;
+    }
+    if (rightDirection) {
+        x[0] += DOT_SIZE;
+    }
+    if (upDirection) {
+        y[0] -= DOT_SIZE;
+    }
+    if (downDirection) {
+        y[0] += DOT_SIZE;
+    }
+}    
+function checkCollision() {
+    for (var z = dots; z > 0; z--) {
+        if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
+            inGame = false;''
+        }
+    }
+    if (y[0] >= C_HEIGHT) {
+        inGame = false;
+    }
+    if (y[0] < 0) {
+       inGame = false;
+    }
+    if (x[0] >= C_WIDTH) {
+      inGame = false;
+    }
+    if (x[0] < 0) {
+      inGame = false;
+    }
+}
+//Where's the apple?
+function locateApple() {
+    var r = Math.floor(Math.random() * MAX_RAND);
+    apple_x = r * DOT_SIZE;
+    r = Math.floor(Math.random() * MAX_RAND);
+    apple_y = r * DOT_SIZE;
+     for (var i = 0; i < wall_x.length; i++)
+    if (apple_x == wall_x[i] && apple_y == wall_x[i] )
+        locateApple();
+}    
+function gameCycle() {
+    
+    if (inGame) {
+        checkWall();
+        checkApple();
+        checkCollision();
+        move();
+        doDrawing();
+        doWall();
+        drawScore();
+        setTimeout("gameCycle()", DELAY);
+    }
+}
+onkeydown = function(e) {
+   
+    var key = e.keyCode;
+    if ((key == LEFT_KEY) && (!rightDirection) && (!moveLock)) {
+        moveLock = true;        
+        leftDirection = true;
+        upDirection = false;
+        downDirection = false;
+    }
+    if ((key == RIGHT_KEY) && (!leftDirection) && (!moveLock)) {
+        moveLock = true; 
+        rightDirection = true;
+        upDirection = false;
+        downDirection = false;
+    }
+    if ((key == UP_KEY) && (!downDirection) && (!moveLock)) {
+        moveLock = true; 
+        upDirection = true;
+        rightDirection = false;
+        leftDirection = false;
+    }
+    if ((key == DOWN_KEY) && (!upDirection) && (!moveLock)) {
+        moveLock = true; 
+        downDirection = true;
+        rightDirection = false;
+        leftDirection = false;    
+    }
+};   
+</script>
+<!-- Sections -->
+<div class="container-fluid">
+    <div class="row">
+    <div class="instructions">
+            <img class="snakeins" src="https://1.bp.blogspot.com/-As-XJFN0YQE/W9rufYJ2TzI/AAAAAAAACGk/dnYun-Qfl9wvd4swVEY6K6nsnGswCBIxQCLcBGAs/s1600/snakeinstructions.png">
+</div>
+</div>  
+</div>
+    <div class="container-fluid">
+<div class="row">
+        <div id="Section2" class="col-sm-6" style="max-height: 100%; min-height: 56%; background-color: #333;">
+       <a href="pakkuman.html"><img class="pacpic"src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Pacman_HD.png/1024px-Pacman_HD.png"></a>
+        </div>
+        <div class="col-sm-6" style="max-height: 100%; min-height: 56%; background-color: #333;">
+            <div class="text1">
+                <h2> パックマン Pakkuman </h2> 
+              <p>  Pac-Man is a simple early arcade game formed in 1980 by the Japanese video-game designer Toru Iwanti. It is the most famous amongst acade games. 
+                  The obejtive in the game, is to find your way through a maze and collect all the dots while avoiding the dangerous ghosts.
+                  Hidden powerups and fruits will apear to improve score, and to return ghosts to reform at their base. <br> <br>
+                  PacMan was designed to have no ending - as long as you'd have at least one life left, you could go on forever. Press Pacman on the left of the screen, to begin your journey</p>
+              </p>
+            </div>
+        </div>
+</div>    
+</div>
+
+<div class="container-fluid">
+<div class="row">
+        <div id="Section3" class="col-sm-6" style="max-height: 100%; min-height: 56%; background-color: #95a0b2; border-right: 3px solid #333;"> 
+        <div class="text2">
+                <h2> Тетрис </h2> 
+              <p>Tetris is a tile-matching-puzzle video game, originally designed an programmed by Russian game designer Alexey Pajitnov
+                 The first playable version was completed on June 6, 1984 while he was working for the Dorodnitsyn Computing Centre in Moscow.
+                 <br> <br> Tetris is made up by geometric shapes composed of four square blocks each. A random sequence of tetris-blocks fall down the playing field. The objective of the game is to
+                 manipulate these Tetriminos, by moving each one sideways or rotating it by 90 degree units. 
+                 Click the tetris logo to your right, and see how many lines you can stack without any gaps! </p>
+              </p>
+            </div>
+        </div>
+        <div class="col-sm-6" style="max-height: 100%; min-height: 56%; background-color: #95a0b2; border-left: 3px solid #333;">
+        <a href="tetris.html"><img class="tetrispic"src="https://dehayf5mhw1h7.cloudfront.net/wp-content/uploads/sites/601/2018/01/08072856/logo_5.png"></a>
+        </div>
+</div>    
+</div>
+
+<div class="container-fluid">
+<div class="row">
+        <div id="Section4" class="col-sm-6" style="max-height: 100%; min-height: 56%; background-color: #333;">
+         <a href="donkeykong.html"><img class="pacpic"src="https://i.pinimg.com/originals/1e/9e/8b/1e9e8bd599cd039e9c8cc78ee259a8ed.png">
+            </a>
+        </div>
+        <div class="col-sm-6" style="max-height: 100%; min-height: 56%; background-color: #333;">
+        <div class="text1"> 
+            <h2>ドンキーコング Donkī Kongu</h2>
+              <p>Donkey Kong is a series of video games, featuring the adventures of an ape-like character called Donkey Kong. The arcade game
+                  was conceived by Shigeru Miyamoto in 1981. The franchise mainly comprises two different game genres, plus
+                  spin-off titles of various genres. <br> <br>
+                  A hallmark of the Donkey Kong franchise is barrels, which the Kongs use as weapons, vehicles, furtnite
+                  and lodging. The Donkey Kong character is highlt recognizable and vey popular. Click the icon to your left 
+                  and see how far you can get without getting hit by Donkey Kongs barrels</p>
+              </p>
+            </div>
+        </div>
+</div>    
+</div>
+
+<div class="container-fluid">
+<div class="row">
+        <div id="Section6" class="col-sm-6" style="max-height: 100%; min-height: 56%; background-color: #95a0b2; border-right: 3px solid #333; ">
+        <a href="breakout.html"><img class="breakoutpic"src="https://2.bp.blogspot.com/-bhs8REAvQ6M/W5isc-VVoxI/AAAAAAAAB3w/6vTRI2U6_a4ZBcfmbU0M88h3u36FcwP0wCLcBGAs/s1600/breakout.png"></a>
+        </div>
+        <div class="col-sm-6" style="max-height: 100%; min-height: 56%; background-color: #95a0b2; border-left: 3px solid #333;">
+        <div class="text2"> 
+            <h2>Breakout</h2>
+              <p>Breakout is an arcade game developed and published by Atari Inc. released on May 13, 1976. It was conceptualized by Nolan Bushnell and Steve Bristow
+                 Breakout was the basis and inspiration for certain aspects of the Apple II personal computer. The game was ported to the Atari 2600 and
+                 was followed by a 1978 sequal, Super Breakout, which four years later became the pack-in game for the Atari 5200 consol <br> <br>
+                 In Breakout, a layer of bricks lines the top third of the screen. A ball travels across the screen, bouncing off the top and sides 
+                 walls of the screen. When a brick is hit, the ball bounces away and the brick is destroyed. The player loses a turn when the ball touches the bottom of the 
+                 screen. To prevent this from happening, the player has a movable paddle to bounce the ball upward, keeping it 
+                 in play. How long can you keep the ball alive?
+                </p>
+            </div>
+        </div>
+</div>    
+</div>
+</body>
+</html>
